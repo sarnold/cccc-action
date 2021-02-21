@@ -7,9 +7,29 @@ inputs:
     description: "GITHUB_TOKEN secret < automatically provided by Github , you don't need to set up >"
     required: true
 
+  commit_report:
+    description: "Whether to commit the report files (else use upload-artifact)"
+    default: ""
+    required: false
+
+  output_dir:
+    description: "Directory name for report (default is metrics)"
+    default: "metrics"
+    required: false
+
   report_type:
-    description: "Report type: xml | HTML"
+    description: "Report type: xml | HTML (default is HTML)"
     default: "html"
+    required: false
+
+  source_dir:
+    description: "Directory name to search for source files (default is repository root)"
+    default: ""
+    required: false
+
+  file_extensions:
+    description: "File extensions to search for (default uses built-in list)"
+    default: ""
     required: false
 
   target_branch:

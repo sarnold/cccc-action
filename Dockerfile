@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 LABEL "maintainer"="Stephen Arnold <nerdboy@gentoo.org>" \
       "repository"="https://github.com/sarnold/cccc-action" \
@@ -8,15 +8,17 @@ LABEL "maintainer"="Stephen Arnold <nerdboy@gentoo.org>" \
       "com.github.actions.icon"="check-circle" \
       "com.github.actions.color"="package"
 
+ENV DEBIAN_FRONTEND noninteractive
+
 RUN apt-get update && \
     apt-get install -y --no-install-recommends software-properties-common && \
     add-apt-repository -y -s ppa:nerdboy/embedded && \
     apt-get update && \
-    apt-get install --no-install-suggests --no-install-recommends -y cccc python3.7 python3.7-dev && \
+    apt-get install --no-install-suggests --no-install-recommends -y cccc && \
     apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /tmp/*
 
 ADD ./src/entrypoint.py /entrypoint.py
 
-ENTRYPOINT ["python", "/entrypoint.py"]
+ENTRYPOINT ["python3", "/entrypoint.py"]

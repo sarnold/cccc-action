@@ -1,4 +1,5 @@
 import os
+import glob
 import subprocess as sp
 
 
@@ -24,7 +25,20 @@ GITHUB_ACTOR = os.environ['GITHUB_ACTOR']
 GITHUB_REPOSITORY_OWNER = os.environ['GITHUB_REPOSITORY_OWNER']
 GITHUB_TOKEN = os.environ['INPUT_GITHUB_TOKEN']
 
+# default values
+LC_EXTENSIONS = [
+    ".c", ".c++", ".cc", ".cpp", ".cxx",
+    ".h", ".h++", ".hh", ".hpp", ".hxx",
+    ".j", ".jav", ".java",
+]
+
+UC_EXTENSIONS = [ext.upper() for ext in LC_EXTENSIONS]
+
 # command related inputs
+DO_COMMIT = os.environ['INPUT_COMMIT_REPORT'] or False
+FILE_EXTENSIONS = os.environ['INPUT_FILE_EXTENSIONS'] or LC_EXTENSIONS.extend(UC_EXTENSIONS)
+SOURCE_DIR = os.environ['INPUT_SOURCE_DIR'] or ""
+OUTPUT_DIR = os.environ['INPUT_OUTPUT_DIR'] or 'metrics'
 REPORT_TYPE = os.environ['INPUT_REPORT_TYPE'] or 'html'
 
 
@@ -34,23 +48,34 @@ out_dir = ""
 
 def prepare_command():
     global command
-    global out_dir
     command = command + "cccc "
-    # check options
-    if REPORT_TYPE == 'html':
-        out_file = "cccc_report.html"
-        command = command + " --html_outfile=" + out_file
+    command = command + " --outdir=" + OUTPUT_DIR
+    source_dir = SOURCE_DIR
 
-    elif REPORT_TYPE == "xml":
-        out_file = "cccc_report.xml"
-        command = command + " --xml_outfile=" + out_file
+    file_exts = FILE_EXTENSIONS
+    src_files = [
+        f for ext in file_exts for f in glob.glob('**{}/*{}'.format(source_dir, ext),
+                                                  recursive=True)
+    ]
 
-    out_dir
-    command = command + " --outdir=" + out_dir
+    file_arg = ""
+    for fname in src_files:
+        file_arg = file_arg + " " + fname
+
+    command = command + " {}".format(file_arg)
 
 
 def run_cccc():
     sp.call(command, shell=True)
+
+
+def rm_unused_rpt():
+    """
+    We need to remove unused output format.
+    """
+    file_ext=".xml"
+    if REPORT_TYPE == "xml":
+        file_ext = ".html"
 
 
 def commit_changes():
@@ -63,9 +88,9 @@ def commit_changes():
     sp.call(set_user, shell=True)
 
     git_checkout = f'git checkout {TARGET_BRANCH}'
-    git_add = f'git add {out_dir}'
+    git_add = f'git add {OUTPUT_DIR}'
     git_commit = 'git commit -m "cccc report added"'
-    print(f'Committing {out_dir}')
+    print(f'Committing {OUTPUT_DIR}')
 
     sp.call(git_checkout, shell=True)
     sp.call(git_add, shell=True)
@@ -88,8 +113,9 @@ def main():
 
     prepare_command()
     run_cccc()
-    commit_changes()
-    push_changes()
+    if DO_COMMIT:
+        commit_changes()
+        push_changes()
 
 
 if __name__ == '__main__':
