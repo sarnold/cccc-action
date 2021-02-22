@@ -1,6 +1,7 @@
 import os
-import glob
 import subprocess as sp
+
+from pathlib import Path
 
 
 GITHUB_EVENT_NAME = os.environ['GITHUB_EVENT_NAME']
@@ -49,7 +50,7 @@ command = ""
 def prepare_command():
     global command
     command = command + "cccc "
-    command = command + " --outdir=" + OUTPUT_DIR
+    command = command + "--outdir=" + OUTPUT_DIR
     source_dir = SOURCE_DIR
     file_exts = FILE_EXTENSIONS
 
@@ -58,13 +59,13 @@ def prepare_command():
     print('Source directory: {}'.format(source_dir))
 
     src_files = [f for ext in file_exts
-                 for f in glob.glob('**{}/*{}'.format(source_dir, ext), recursive=True)]
+                 for f in Path(source_dir).glob('**/*{}'.format(ext))]
 
     print('Source files: {}'.format(src_files))
 
     file_arg = ""
     for fname in src_files:
-        file_arg = file_arg + " " + fname
+        file_arg = file_arg + " " + str(fname)
 
     command = command + " {}".format(file_arg)
     print('Full command line: {}'.format(command))
