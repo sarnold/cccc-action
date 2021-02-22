@@ -1,4 +1,5 @@
-
+A Github Action for cccc
+========================
 
 **what is cccc?**
 
@@ -95,4 +96,4 @@ Please refer to the cccc_ doumentation for further details.
 
 
 
-.. _cccc: https://github.com/sarnold/cccc
+.. _cccc: https://sarnold.github.io/cccc/
