@@ -1,0 +1,61 @@
+name: "cccc-action"
+author: sarnold
+description: "Generate useful metrics for C, C++, and Java code"
+
+inputs:
+  github_token:
+    description: "GITHUB_TOKEN secret < automatically provided by Github , you don't need to set up >"
+    required: true
+
+  commit_report:
+    description: "Whether to commit the report files (else use upload-artifact)"
+    default: ""
+    required: false
+
+  output_dir:
+    description: "Directory name for report (default is metrics)"
+    default: "metrics"
+    required: false
+
+  report_type:
+    description: "Report type: xml | HTML (default is HTML)"
+    default: "html"
+    required: false
+
+  source_dir:
+    description: "Directory name to search for source files (default is repository root)"
+    default: ""
+    required: false
+
+  file_extensions:
+    description: "File extensions to search for (default uses built-in list)"
+    default: ""
+    required: false
+
+  target_branch:
+    description: "Branch that the action will target. Defaults to the current branch."
+    default: ""
+    required: false
+
+  pull_request_branch:
+    description: "Branch that the action will target on pull_request. Defaults to GITHUB_BASE_REF."
+    default: ""
+    required: false
+
+  target_repository:
+    description: "Repository that the report will be pushed to. Defaults to the current repository."
+    default: ""
+    required: false
+
+  pull_request_repository:
+    description: "Repository that the action will target on pull_request. Defaults to TARGET_REPOSITORY"
+    default: ""
+    required: false
+
+runs:
+  using: "docker"
+  image: "Dockerfile"
+
+branding:
+  icon: "globe"
+  color: "blue"

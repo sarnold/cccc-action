@@ -1,0 +1,23 @@
+on: [push]
+
+jobs:
+  cccc_test:
+    runs-on: ubuntu-latest
+    name: A job to test with
+    steps:
+      # To use this repository's private action,
+      # you must check out the repository
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: cccc action step (all sources)
+        uses: ./ # Uses an action in the root directory
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN}}
+          source_dir: 'tests'
+
+      - name: upload report
+        uses: actions/upload-artifact@v2
+        with:
+          name: metrics
+          path: ./metrics
