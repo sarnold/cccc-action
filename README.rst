@@ -89,6 +89,7 @@ Input Options
 :output_dir: Directory name for report (default: "metrics")
 :source_dir: Directory name to search for source files (default is repository root)
 :target_branch: Branch that the action will target (default is current branch)
+:language: Set the target language if needed (one of 'c++', 'c', or 'java')
 .. :file_extensions: File extensions to search for (default uses built-in list)
 
 

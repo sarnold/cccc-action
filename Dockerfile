@@ -9,6 +9,8 @@ LABEL "maintainer"="Stephen Arnold <nerdboy@gentoo.org>" \
       "com.github.actions.color"="package"
 
 ENV DEBIAN_FRONTEND noninteractive
+# Set PYTHONUNBUFFERED so we don't get interleaved output
+ENV PYTHONUNBUFFERED 1
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends software-properties-common && \
