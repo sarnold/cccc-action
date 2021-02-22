@@ -34,16 +34,16 @@ LC_EXTENSIONS = [
 
 UC_EXTENSIONS = [ext.upper() for ext in LC_EXTENSIONS]
 
-# command related inputs
-DO_COMMIT = os.environ['INPUT_COMMIT_REPORT'] or False
-FILE_EXTENSIONS = os.environ['INPUT_FILE_EXTENSIONS'] or LC_EXTENSIONS.extend(UC_EXTENSIONS)
-SOURCE_DIR = os.environ['INPUT_SOURCE_DIR'] or ""
-OUTPUT_DIR = os.environ['INPUT_OUTPUT_DIR'] or 'metrics'
-REPORT_TYPE = os.environ['INPUT_REPORT_TYPE'] or 'html'
+DO_COMMIT = os.environ.get('INPUT_COMMIT_REPORT', False)
+FILE_EXTENSIONS = os.environ.get('INPUT_FILE_EXTENSIONS', None)
+if not FILE_EXTENSIONS:
+    FILE_EXTENSIONS = LC_EXTENSIONS + UC_EXTENSIONS
+SOURCE_DIR = os.environ.get('INPUT_SOURCE_DIR', "")
+OUTPUT_DIR = os.environ.get('INPUT_OUTPUT_DIR', 'metrics')
+REPORT_TYPE = os.environ.get('INPUT_REPORT_TYPE', 'html')
 
 
 command = ""
-out_dir = ""
 
 
 def prepare_command():
@@ -51,18 +51,23 @@ def prepare_command():
     command = command + "cccc "
     command = command + " --outdir=" + OUTPUT_DIR
     source_dir = SOURCE_DIR
-
     file_exts = FILE_EXTENSIONS
-    src_files = [
-        f for ext in file_exts for f in glob.glob('**{}/*{}'.format(source_dir, ext),
-                                                  recursive=True)
-    ]
+
+    print('Output directory: {}'.format(OUTPUT_DIR))
+    print('File extensions: {}'.format(file_exts))
+    print('Source directory: {}'.format(source_dir))
+
+    src_files = [f for ext in file_exts
+                 for f in glob.glob('**{}/*{}'.format(source_dir, ext), recursive=True)]
+
+    print('Source files: {}'.format(src_files))
 
     file_arg = ""
     for fname in src_files:
         file_arg = file_arg + " " + fname
 
     command = command + " {}".format(file_arg)
+    print('Full command line: {}'.format(command))
 
 
 def run_cccc():
