@@ -16,6 +16,15 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN}}
           source_dir: 'tests'
 
+      - name: cccc action step with options
+        uses: ./ # Uses an action in the root directory
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN}}
+          target_branch: 'gh-pages'
+          file_extensions: |
+            '.h'
+            '.cc'
+
       - name: upload report
         uses: actions/upload-artifact@v2
         with:

@@ -75,6 +75,9 @@ Advanced configuration
               source_dir: 'cccc'  # source dir for main cccc sources
               commit_report: 'true'
               target_branch: 'gh-pages'
+              file_extensions: |
+                '.h'
+                '.cc'
 
 
 Input Options
@@ -92,7 +95,8 @@ Input Options
 :source_dir: Directory name to search for source files (default is repository root)
 :target_branch: Branch that the action will target (default is current branch)
 :language: Set the target language if needed (one of 'c++', 'c', or 'java')
-.. :file_extensions: File extensions to search for (default uses built-in list)
+:file_extensions: File extensions to search for (default uses built-in list).
+  Type is multiline string.
 
 
 Please refer to the cccc_ doumentation for further details.

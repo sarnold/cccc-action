@@ -36,9 +36,11 @@ LC_EXTENSIONS = [
 UC_EXTENSIONS = [ext.upper() for ext in LC_EXTENSIONS]
 
 DO_COMMIT = os.environ.get('INPUT_COMMIT_REPORT', False)
-FILE_EXTENSIONS = os.environ.get('INPUT_FILE_EXTENSIONS', None)
-if not FILE_EXTENSIONS:
+FILE_EXTENSIONS = os.environ.get('INPUT_FILE_EXTENSIONS', "").split()
+
+if FILE_EXTENSIONS == []:
     FILE_EXTENSIONS = LC_EXTENSIONS + UC_EXTENSIONS
+
 LANGUAGE = os.environ.get('INPUT_LANGUAGE', "")
 SOURCE_DIR = os.environ.get('INPUT_SOURCE_DIR', "")
 OUTPUT_DIR = os.environ.get('INPUT_OUTPUT_DIR', 'metrics')
