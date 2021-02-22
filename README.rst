@@ -73,11 +73,11 @@ Advanced configuration
             with:
               github_token: ${{ secrets.GITHUB_TOKEN}}
               source_dir: 'cccc'  # source dir for main cccc sources
-              commit_report: 'true'
-              target_branch: 'gh-pages'
+              commit_report: true
+              target_branch: gh-pages
               file_extensions: |
-                '.h'
-                '.cc'
+                .h
+                .cc
 
 
 Input Options

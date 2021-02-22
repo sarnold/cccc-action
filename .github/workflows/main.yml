@@ -22,8 +22,8 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN}}
           target_branch: 'gh-pages'
           file_extensions: |
-            '.h'
-            '.cc'
+            .h
+            .cc
 
       - name: upload report
         uses: actions/upload-artifact@v2
