@@ -80,7 +80,9 @@ Advanced configuration
 Input Options
 -------------
 
-.. note:: All input options are optional *except* ``github_token``.
+.. note:: All input options are optional *except* ``github_token``. By
+          default, the ``commit_report`` option uses ``--dry-run`` so
+          you can see what it *would* do before you actually enable it.
 
 
 :github_token: GITHUB_TOKEN secret (automatically provided by Github,
@@ -96,5 +98,23 @@ Input Options
 Please refer to the cccc_ doumentation for further details.
 
 
-
 .. _cccc: https://sarnold.github.io/cccc/
+
+
+Operating System Support
+------------------------
+
+This action runs in a Docker container and requires the Ubuntu_ CI runner.
+In your workflow job configuration, you'll need to set the ``runs-on``
+property to ``ubuntu-latest``::
+
+    jobs:
+      metrics:
+        runs-on: ubuntu-latest
+
+The ``cccc`` tool itself is built and tested in github CI using Linux,
+Macos, and Windows, so you can always generate output on your local
+machine as needed.
+
+
+.. _: https://ubuntu.com/

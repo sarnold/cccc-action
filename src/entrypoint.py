@@ -100,6 +100,8 @@ def commit_changes():
     git_checkout = f'git checkout {TARGET_BRANCH}'
     git_add = f'git add {OUTPUT_DIR}'
     git_commit = 'git commit -m "cccc report added"'
+    if not DO_COMMIT:
+        git_commit = 'git commit --dry-run -m "cccc report added"'
     print(f'Committing {OUTPUT_DIR}')
 
     sp.call(git_checkout, shell=True)
@@ -123,9 +125,8 @@ def main():
 
     prepare_command()
     run_cccc()
-    if DO_COMMIT:
-        commit_changes()
-        push_changes()
+    commit_changes()
+    push_changes()
 
 
 if __name__ == '__main__':
