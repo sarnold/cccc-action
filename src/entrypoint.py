@@ -7,9 +7,10 @@ from pathlib import Path
 GITHUB_EVENT_NAME = os.environ['GITHUB_EVENT_NAME']
 
 # Set repository
-CURRENT_REPOSITORY = os.environ['GITHUB_REPOSITORY']
+CURRENT_REPOSITORY = os.environ.get('GITHUB_REPOSITORY', '')
 # TODO: How about PRs from forks?
-TARGET_REPOSITORY = os.environ.get('INPUT_TARGET_REPOSITORY', CURRENT_REPOSITORY)
+TARGET_REPO = os.environ.get('INPUT_TARGET_REPOSITORY', '')
+TARGET_REPOSITORY = TARGET_REPO if TARGET_REPO != '' else CURRENT_REPOSITORY
 PULL_REQUEST_REPOSITORY = os.environ.get('INPUT_PULL_REQUEST_REPOSITORY', TARGET_REPOSITORY)
 REPOSITORY = PULL_REQUEST_REPOSITORY if GITHUB_EVENT_NAME == 'pull_request' else TARGET_REPOSITORY
 
@@ -98,6 +99,9 @@ def commit_changes():
 
     sp.call(set_email, shell=True)
     sp.call(set_user, shell=True)
+
+    print('Target branch: {}'.format(TARGET_BRANCH))
+    print('Target repository: {}'.format(TARGET_REPOSITORY))
 
     git_checkout = f'git checkout {TARGET_BRANCH}'
     git_add = f'git add {OUTPUT_DIR}'

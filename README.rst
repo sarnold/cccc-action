@@ -99,6 +99,17 @@ Input Options
   Type is multiline string.
 
 
+Input Constraints
+-----------------
+
+* **target_branch** will not create a new branch (you must create and
+  push the branch *before* enabling this option)
+* **language** does not limit the search for source files (use this option
+  if any source files are mis-detected)
+* use **source_dir** and/or **file_extensions** to narrow the source file
+  search as needed
+
+
 Please refer to the cccc_ doumentation for further details.
 
 
