@@ -1,6 +1,10 @@
 A Github Action for cccc
 ========================
 
+.. image:: https://socialify.git.ci/sarnold/cccc-action/image?description=1&font=Raleway&issues=1&language=1&owner=1&pulls=1&stargazers=1&theme=Light
+   :alt: cccc-action
+
+
 **what is cccc?**
 
 cccc_ is a program to analyze C++, C, and Java source code and report on
