@@ -57,5 +57,5 @@ runs:
   image: "Dockerfile"
 
 branding:
-  icon: "alert-octagon"
-  color: "red"
+  icon: "globe"
+  color: "blue"

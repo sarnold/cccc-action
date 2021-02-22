@@ -75,13 +75,13 @@ def run_cccc():
     sp.call(command, shell=True)
 
 
-def rm_unused_rpt():
-    """
-    We need to remove unused output format.
-    """
-    file_ext=".xml"
-    if REPORT_TYPE == "xml":
-        file_ext = ".html"
+# def rm_unused_rpt():
+# """
+# We need to remove unused output format.
+# """
+# file_ext=".xml"
+# if REPORT_TYPE == "xml":
+    # file_ext = ".html"
 
 
 def commit_changes():
