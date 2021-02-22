@@ -7,10 +7,11 @@ from pathlib import Path
 GITHUB_EVENT_NAME = os.environ['GITHUB_EVENT_NAME']
 
 # Set repository
-CURRENT_REPOSITORY = os.environ['GITHUB_REPOSITORY']
+CURRENT_REPOSITORY = os.environ.get('GITHUB_REPOSITORY', '')
 # TODO: How about PRs from forks?
-TARGET_REPOSITORY = os.environ['INPUT_TARGET_REPOSITORY'] or CURRENT_REPOSITORY
-PULL_REQUEST_REPOSITORY = os.environ['INPUT_PULL_REQUEST_REPOSITORY'] or TARGET_REPOSITORY
+TARGET_REPO = os.environ.get('INPUT_TARGET_REPOSITORY', '')
+TARGET_REPOSITORY = TARGET_REPO if TARGET_REPO != '' else CURRENT_REPOSITORY
+PULL_REQUEST_REPOSITORY = os.environ.get('INPUT_PULL_REQUEST_REPOSITORY', TARGET_REPOSITORY)
 REPOSITORY = PULL_REQUEST_REPOSITORY if GITHUB_EVENT_NAME == 'pull_request' else TARGET_REPOSITORY
 
 # Set branches
@@ -18,8 +19,8 @@ GITHUB_REF = os.environ['GITHUB_REF']
 GITHUB_HEAD_REF = os.environ['GITHUB_HEAD_REF']
 GITHUB_BASE_REF = os.environ['GITHUB_BASE_REF']
 CURRENT_BRANCH = GITHUB_HEAD_REF or GITHUB_REF.rsplit('/', 1)[-1]
-TARGET_BRANCH = os.environ['INPUT_TARGET_BRANCH'] or CURRENT_BRANCH
-PULL_REQUEST_BRANCH = os.environ['INPUT_PULL_REQUEST_BRANCH'] or GITHUB_BASE_REF
+TARGET_BRANCH = os.environ.get('INPUT_TARGET_BRANCH', CURRENT_BRANCH)
+PULL_REQUEST_BRANCH = os.environ.get('INPUT_PULL_REQUEST_BRANCH', GITHUB_BASE_REF)
 BRANCH = PULL_REQUEST_BRANCH if GITHUB_EVENT_NAME == 'pull_request' else TARGET_BRANCH
 
 GITHUB_ACTOR = os.environ['GITHUB_ACTOR']
@@ -36,9 +37,12 @@ LC_EXTENSIONS = [
 UC_EXTENSIONS = [ext.upper() for ext in LC_EXTENSIONS]
 
 DO_COMMIT = os.environ.get('INPUT_COMMIT_REPORT', False)
-FILE_EXTENSIONS = os.environ.get('INPUT_FILE_EXTENSIONS', None)
-if not FILE_EXTENSIONS:
+FILE_EXTENSIONS = os.environ.get('INPUT_FILE_EXTENSIONS', "").split()
+
+if FILE_EXTENSIONS == []:
     FILE_EXTENSIONS = LC_EXTENSIONS + UC_EXTENSIONS
+
+LANGUAGE = os.environ.get('INPUT_LANGUAGE', "")
 SOURCE_DIR = os.environ.get('INPUT_SOURCE_DIR', "")
 OUTPUT_DIR = os.environ.get('INPUT_OUTPUT_DIR', 'metrics')
 REPORT_TYPE = os.environ.get('INPUT_REPORT_TYPE', 'html')
@@ -51,12 +55,15 @@ def prepare_command():
     global command
     command = command + "cccc "
     command = command + "--outdir=" + OUTPUT_DIR
+    if LANGUAGE != "":
+        command = command + " --lang=" + LANGUAGE
     source_dir = SOURCE_DIR
     file_exts = FILE_EXTENSIONS
 
     print('Output directory: {}'.format(OUTPUT_DIR))
     print('File extensions: {}'.format(file_exts))
     print('Source directory: {}'.format(source_dir))
+    print('Source language: {}'.format(LANGUAGE))
 
     src_files = [f for ext in file_exts
                  for f in Path(source_dir).glob('**/*{}'.format(ext))]
@@ -93,9 +100,14 @@ def commit_changes():
     sp.call(set_email, shell=True)
     sp.call(set_user, shell=True)
 
+    print('Target branch: {}'.format(TARGET_BRANCH))
+    print('Target repository: {}'.format(TARGET_REPOSITORY))
+
     git_checkout = f'git checkout {TARGET_BRANCH}'
     git_add = f'git add {OUTPUT_DIR}'
     git_commit = 'git commit -m "cccc report added"'
+    if not DO_COMMIT:
+        git_commit = 'git commit --dry-run -m "cccc report added"'
     print(f'Committing {OUTPUT_DIR}')
 
     sp.call(git_checkout, shell=True)
@@ -119,9 +131,8 @@ def main():
 
     prepare_command()
     run_cccc()
-    if DO_COMMIT:
-        commit_changes()
-        push_changes()
+    commit_changes()
+    push_changes()
 
 
 if __name__ == '__main__':

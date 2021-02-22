@@ -1,6 +1,10 @@
 A Github Action for cccc
 ========================
 
+.. image:: https://socialify.git.ci/sarnold/cccc-action/image?description=1&font=Raleway&issues=1&language=1&owner=1&pulls=1&stargazers=1&theme=Light
+   :alt: cccc-action
+
+
 **what is cccc?**
 
 cccc_ is a program to analyze C++, C, and Java source code and report on
@@ -73,14 +77,19 @@ Advanced configuration
             with:
               github_token: ${{ secrets.GITHUB_TOKEN}}
               source_dir: 'cccc'  # source dir for main cccc sources
-              commit_report: 'true'
-              target_branch: 'gh-pages'
+              commit_report: true
+              target_branch: gh-pages
+              file_extensions: |
+                .h
+                .cc
 
 
 Input Options
 -------------
 
-.. note:: All input options are optional *except* ``github_token``.
+.. note:: All input options are optional *except* ``github_token``. By
+          default, the ``commit_report`` option uses ``--dry-run`` so
+          you can see what it *would* do before you actually enable it.
 
 
 :github_token: GITHUB_TOKEN secret (automatically provided by Github,
@@ -89,11 +98,42 @@ Input Options
 :output_dir: Directory name for report (default: "metrics")
 :source_dir: Directory name to search for source files (default is repository root)
 :target_branch: Branch that the action will target (default is current branch)
-.. :file_extensions: File extensions to search for (default uses built-in list)
+:language: Set the target language if needed (one of 'c++', 'c', or 'java')
+:file_extensions: File extensions to search for (default uses built-in list).
+  Type is multiline string.
+
+
+Input Constraints
+-----------------
+
+* **target_branch** will not create a new branch (you must create and
+  push the branch *before* enabling this option)
+* **language** does not limit the search for source files (use this option
+  if any source files are mis-detected)
+* use **source_dir** and/or **file_extensions** to narrow the source file
+  search as needed
 
 
 Please refer to the cccc_ doumentation for further details.
 
 
-
 .. _cccc: https://sarnold.github.io/cccc/
+
+
+Operating System Support
+------------------------
+
+This action runs in a Docker container and requires the Ubuntu_ CI runner.
+In your workflow job configuration, you'll need to set the ``runs-on``
+property to ``ubuntu-latest``::
+
+    jobs:
+      metrics:
+        runs-on: ubuntu-latest
+
+The ``cccc`` tool itself is built and tested in github CI using Linux,
+Macos, and Windows, so you can always generate output on your local
+machine as needed.
+
+
+.. _: https://ubuntu.com/

@@ -7,6 +7,7 @@ descending_issues_order: True  # If True, PEP 8 issues in message will be displa
 [flake8]
 exclude =
     .git,
+    .github,
     __pycache__,
     build,
     dist
