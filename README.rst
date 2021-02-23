@@ -1,7 +1,9 @@
 A Github Action for cccc
 ========================
 
-|social|
+.. image:: https://socialify.git.ci/sarnold/cccc-action/image?description=1&font=Raleway&issues=1&language=1&owner=1&pulls=1&stargazers=1&theme=Light
+   :alt: cccc-action
+
 
 |test|
 
@@ -72,6 +74,8 @@ Advanced configuration
         runs-on: ubuntu-latest
         steps:
           - uses: actions/checkout@v2
+            with:
+              fetch-depth: 0
 
           - name: cccc action step
             uses: sarnold/cccc-action@master
@@ -139,9 +143,6 @@ machine as needed.
 
 .. _Ubuntu: https://ubuntu.com/
 
-
-.. :social: image:: https://socialify.git.ci/sarnold/cccc-action/image?description=1&font=Raleway&issues=1&language=1&owner=1&pulls=1&stargazers=1&theme=Light
-   :alt: cccc-action
 
 .. |test| image:: https://github.com/sarnold/cccc-action/actions/workflows/option-tests/badge.svg
     :target: https://github.com/sarnold/cccc-action/actions?query=workflow:option-tests

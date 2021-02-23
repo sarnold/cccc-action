@@ -16,6 +16,8 @@ jobs:
       # you must check out the repository
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: cccc action step (all sources)
         uses: ./ # Uses an action in the root directory
