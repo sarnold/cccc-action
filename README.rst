@@ -1,8 +1,9 @@
 A Github Action for cccc
 ========================
 
-.. image:: https://socialify.git.ci/sarnold/cccc-action/image?description=1&font=Raleway&issues=1&language=1&owner=1&pulls=1&stargazers=1&theme=Light
-   :alt: cccc-action
+|social|
+
+|test|
 
 
 **what is cccc?**
@@ -136,4 +137,12 @@ Macos, and Windows, so you can always generate output on your local
 machine as needed.
 
 
-.. _: https://ubuntu.com/
+.. _Ubuntu: https://ubuntu.com/
+
+
+.. :social: image:: https://socialify.git.ci/sarnold/cccc-action/image?description=1&font=Raleway&issues=1&language=1&owner=1&pulls=1&stargazers=1&theme=Light
+   :alt: cccc-action
+
+.. |test| image:: https://github.com/sarnold/cccc-action/actions/workflows/option-tests/badge.svg
+    :target: https://github.com/sarnold/cccc-action/actions?query=workflow:option-tests
+    :alt: CI test status
