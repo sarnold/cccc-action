@@ -8,8 +8,17 @@ A Github Action for cccc
     :target: https://github.com/sarnold/cccc-action/actions/workflows/main.yml
     :alt: CI test status
 
+.. image:: https://img.shields.io/github/v/tag/sarnold/cccc-action?color=green&include_prereleases&label=latest%20release
+    :target: https://github.com/sarnold/cccc-action/releases
+    :alt: GitHub tag
 
-**what is cccc?**
+.. image:: https://img.shields.io/github/license/sarnold/cccc-action
+    :target: https://github.com/sarnold/cccc-action/blob/master/LICENSE
+    :alt: License
+
+
+What is cccc?
+=============
 
 cccc_ is a program to analyze C++, C, and Java source code and report on
 some useful software metrics. By default, cccc will look for the standard
