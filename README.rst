@@ -5,6 +5,9 @@ A Github Action for cccc
    :alt: cccc-action
 
 
+|test|
+
+
 **what is cccc?**
 
 cccc_ is a program to analyze C++, C, and Java source code and report on
@@ -71,6 +74,8 @@ Advanced configuration
         runs-on: ubuntu-latest
         steps:
           - uses: actions/checkout@v2
+            with:
+              fetch-depth: 0
 
           - name: cccc action step
             uses: sarnold/cccc-action@master
@@ -136,4 +141,9 @@ Macos, and Windows, so you can always generate output on your local
 machine as needed.
 
 
-.. _: https://ubuntu.com/
+.. _Ubuntu: https://ubuntu.com/
+
+
+.. |test| image:: https://github.com/sarnold/cccc-action/actions/workflows/option-tests/badge.svg
+    :target: https://github.com/sarnold/cccc-action/actions?query=workflow:option-tests
+    :alt: CI test status

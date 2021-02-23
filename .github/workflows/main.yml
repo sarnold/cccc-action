@@ -1,14 +1,23 @@
-on: [push]
+name: option-tests
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches: [ master ]
+
 
 jobs:
   cccc_test:
     runs-on: ubuntu-latest
-    name: A job to test with
+    name: Test options
     steps:
       # To use this repository's private action,
       # you must check out the repository
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: cccc action step (all sources)
         uses: ./ # Uses an action in the root directory
@@ -20,7 +29,7 @@ jobs:
         uses: ./ # Uses an action in the root directory
         with:
           github_token: ${{ secrets.GITHUB_TOKEN}}
-          target_branch: test-branch
+          target_branch: gh-pages
           file_extensions: |
             .h
             .cc
