@@ -13,7 +13,7 @@ A Github Action for cccc
     :alt: GitHub tag
 
 .. image:: https://img.shields.io/github/license/sarnold/cccc-action
-    :target: https://github.com/sarnold/cccc-action/blob/master/LICENSE
+    :target: https://github.com/sarnold/cccc-action/blob/main/LICENSE
     :alt: License
 
 
@@ -59,7 +59,7 @@ Default configuration
           - uses: actions/checkout@v2
 
           - name: cccc action step
-            uses: sarnold/cccc-action@master
+            uses: sarnold/cccc-action@main
             with:
               github_token: ${{ secrets.GITHUB_TOKEN}}
 
@@ -88,7 +88,7 @@ Advanced configuration
               fetch-depth: 0
 
           - name: cccc action step
-            uses: sarnold/cccc-action@master
+            uses: sarnold/cccc-action@main
             with:
               github_token: ${{ secrets.GITHUB_TOKEN}}
               source_dir: 'cccc'  # source dir for main cccc sources

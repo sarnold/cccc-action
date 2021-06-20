@@ -94,7 +94,7 @@ def run_cccc():
 def commit_changes():
     """Commits changes.
     """
-    set_email = 'git config --local user.email "cccc-action@master"'
+    set_email = 'git config --local user.email "cccc-action@main"'
     set_user = 'git config --local user.name "cccc-action"'
 
     sp.call(set_email, shell=True)
