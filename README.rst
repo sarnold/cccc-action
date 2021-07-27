@@ -24,7 +24,7 @@ cccc_ is a program to analyze C++, C, and Java source code and report on
 some useful software metrics. By default, cccc will look for the standard
 source file extensions for all supported languages (currently Java, C++,
 and C) starting in the repository root.  You can override the default
-extensions or specifiy a top-level source directory if needed (see below).
+extensions or specifiy a list of source directories if needed (see below).
 
 The output report is a directory with both ``.html`` and ``.xml`` files,
 plus an options file containing all options used for that run, and a
@@ -94,6 +94,8 @@ Advanced configuration
               source_dir: 'cccc'  # source dir for main cccc sources
               commit_report: true
               target_branch: gh-pages
+              source_dirs: |
+                src
               file_extensions: |
                 .h
                 .cc
@@ -111,7 +113,7 @@ Input Options
   you don't need to set this up)
 :commit_report: Whether to commit the report files (default: false)
 :output_dir: Directory name for report (default: "metrics")
-:source_dir: Directory name to search for source files (default is repository root)
+:source_dirs: Directory names to search for source files (default is repository root)
 :target_branch: Branch that the action will target (default is current branch)
 :language: Set the target language if needed (one of 'c++', 'c', or 'java')
 :file_extensions: File extensions to search for (default uses built-in list).
@@ -125,8 +127,10 @@ Input Constraints
   push the branch *before* enabling this option)
 * **language** does not limit the search for source files (use this option
   if any source files are mis-detected)
-* use **source_dir** and/or **file_extensions** to narrow the source file
+* use **source_dirs** and/or **file_extensions** to narrow the source file
   search as needed
+* **source_dirs** should be the relative path from the repository root,
+  ie, use something like `src/java` if the source directories are nested
 
 
 Please refer to the cccc_ doumentation for further details.

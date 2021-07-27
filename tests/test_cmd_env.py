@@ -19,7 +19,7 @@ if FILE_EXTENSIONS == []:
     FILE_EXTENSIONS = LC_EXTENSIONS + UC_EXTENSIONS
 
 LANGUAGE = os.environ.get('INPUT_LANGUAGE', "")
-SOURCE_DIR = os.environ.get('INPUT_SOURCE_DIR', "")
+SOURCE_DIRS = os.environ.get('INPUT_SOURCE_DIRS', "").split()
 OUTPUT_DIR = os.environ.get('INPUT_OUTPUT_DIR', 'metrics')
 REPORT_TYPE = os.environ.get('INPUT_REPORT_TYPE', 'html')
 
@@ -28,20 +28,23 @@ command = ""
 
 def prepare_command():
     global command
-    command = command + "cccc "
-    command = command + "--outdir=" + OUTPUT_DIR
+    command = command + "cccc"
+    command = command + " --outdir=" + OUTPUT_DIR
     if LANGUAGE != "":
         command = command + " --lang=" + LANGUAGE
-    source_dir = SOURCE_DIR
+    source_dirs = SOURCE_DIRS
     file_exts = FILE_EXTENSIONS
+    src_files = []
 
     print('Output directory: {}'.format(OUTPUT_DIR))
     print('File extensions: {}'.format(file_exts))
-    print('Source directory: {}'.format(source_dir))
+    print('Source directories: {}'.format(source_dirs))
     print('Source language: {}'.format(LANGUAGE))
 
-    src_files = [f for ext in file_exts
-                 for f in Path(source_dir).glob('**/*{}'.format(ext))]
+    for srcdir in source_dirs:
+        files = [f for ext in file_exts
+                 for f in Path(srcdir).glob('**/*{}'.format(ext))]
+        src_files.append(files)
 
     print('Source files: {}'.format(src_files))
 
@@ -49,7 +52,7 @@ def prepare_command():
     for fname in src_files:
         file_arg = file_arg + " " + str(fname)
 
-    command = command + " {}".format(file_arg)
+    command = command + "{}".format(file_arg)
     print('Full command line: {}'.format(command))
 
 
