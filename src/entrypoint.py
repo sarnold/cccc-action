@@ -26,6 +26,7 @@ BRANCH = PULL_REQUEST_BRANCH if GITHUB_EVENT_NAME == 'pull_request' else TARGET_
 GITHUB_ACTOR = os.environ['GITHUB_ACTOR']
 GITHUB_REPOSITORY_OWNER = os.environ['GITHUB_REPOSITORY_OWNER']
 GITHUB_TOKEN = os.environ['INPUT_GITHUB_TOKEN']
+GITHUB_WORKSPACE = os.environ['GITHUB_WORKSPACE']
 
 # default values
 LC_EXTENSIONS = [
@@ -44,7 +45,7 @@ if FILE_EXTENSIONS == []:
     FILE_EXTENSIONS = LC_EXTENSIONS + UC_EXTENSIONS
 
 LANGUAGE = os.environ.get('INPUT_LANGUAGE', "")
-SOURCE_DIRS = os.environ.get('INPUT_SOURCE_DIRS', "").split()
+SOURCE_DIRS = os.environ.get('INPUT_SOURCE_DIRS', GITHUB_WORKSPACE).split()
 OUTPUT_DIR = os.environ.get('INPUT_OUTPUT_DIR', 'metrics')
 REPORT_TYPE = os.environ.get('INPUT_REPORT_TYPE', 'html')
 
@@ -69,7 +70,7 @@ def prepare_command():
     for srcdir in source_dirs:
         files = [f for ext in file_exts
                  for f in Path(srcdir).glob('**/*{}'.format(ext))]
-        src_files.append(files)
+        src_files += files
 
     print('Source files: {}'.format(src_files))
 
@@ -110,7 +111,7 @@ def commit_changes():
     git_add = f'git add {OUTPUT_DIR}'
     git_commit = 'git commit -m "cccc report added"'
     if not DO_COMMIT:
-        git_commit = 'git commit --dry-run -m "commit report (dry-run only)"'
+        git_commit = 'git commit --dry-run -m "commit report, dry-run only"'
     print(f'Committing {OUTPUT_DIR}')
 
     sp.call(git_checkout, shell=True)

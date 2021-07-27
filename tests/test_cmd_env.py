@@ -2,6 +2,9 @@ import os
 
 from pathlib import Path
 
+# test path
+CURDIR = os.environ['PWD']
+
 # default values
 LC_EXTENSIONS = [
     ".c", ".c++", ".cc", ".cpp", ".cxx",
@@ -14,12 +17,13 @@ UC_EXTENSIONS = [ext.upper() for ext in LC_EXTENSIONS]
 # command related inputs
 DO_COMMIT = os.environ.get('INPUT_COMMIT_REPORT', False)
 FILE_EXTENSIONS = os.environ.get('INPUT_FILE_EXTENSIONS', "").split()
+GITHUB_WORKSPACE = os.environ.get('GITHUB_WORKSPACE', CURDIR)
 
 if FILE_EXTENSIONS == []:
     FILE_EXTENSIONS = LC_EXTENSIONS + UC_EXTENSIONS
 
 LANGUAGE = os.environ.get('INPUT_LANGUAGE', "")
-SOURCE_DIRS = os.environ.get('INPUT_SOURCE_DIRS', "").split()
+SOURCE_DIRS = os.environ.get('INPUT_SOURCE_DIRS', GITHUB_WORKSPACE).split()
 OUTPUT_DIR = os.environ.get('INPUT_OUTPUT_DIR', 'metrics')
 REPORT_TYPE = os.environ.get('INPUT_REPORT_TYPE', 'html')
 
@@ -44,7 +48,7 @@ def prepare_command():
     for srcdir in source_dirs:
         files = [f for ext in file_exts
                  for f in Path(srcdir).glob('**/*{}'.format(ext))]
-        src_files.append(files)
+        src_files += files
 
     print('Source files: {}'.format(src_files))
 

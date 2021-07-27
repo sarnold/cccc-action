@@ -60,9 +60,13 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           target_branch: gh-pages
+          source_dirs: |
+            tests/java
+            tests/cpp
+            tests/c
           file_extensions: |
             .h
-            .cc
+            .cpp
 
       - name: upload report
         uses: actions/upload-artifact@v2
