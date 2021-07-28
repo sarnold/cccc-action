@@ -3,6 +3,7 @@ import subprocess as sp
 
 from pathlib import Path
 
+__version__ = '0.0.2'
 
 GITHUB_EVENT_NAME = os.environ['GITHUB_EVENT_NAME']
 
