@@ -22,8 +22,8 @@ inputs:
     default: "html"
     required: false
 
-  source_dir:
-    description: "Directory name to search for source files (default is repository root)"
+  source_dirs:
+    description: "List of one or more directory names to search for source files (default is repository root)"
     default: ""
     required: false
 
