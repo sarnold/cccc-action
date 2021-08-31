@@ -61,7 +61,7 @@ Default configuration
           - name: cccc action step
             uses: sarnold/cccc-action@main
             with:
-              github_token: ${{ secrets.GITHUB_TOKEN}}
+              github_token: ${{ secrets.GITHUB_TOKEN }}
 
           - name: upload metrics report
             uses: actions/upload-artifact@v2
@@ -91,7 +91,6 @@ Advanced configuration
             uses: sarnold/cccc-action@main
             with:
               github_token: ${{ secrets.GITHUB_TOKEN}}
-              source_dir: 'cccc'  # source dir for main cccc sources
               commit_report: true
               target_branch: gh-pages
               source_dirs: |
