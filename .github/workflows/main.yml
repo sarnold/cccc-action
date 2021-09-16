@@ -9,16 +9,8 @@ on:
 
 jobs:
   test_defaults:
-    name: Test options defaults
-    runs-on: ${{ matrix.os }}
-    defaults:
-      run:
-        shell: bash
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-18.04, ubuntu-20.04]
-
+    runs-on: ubuntu-latest
+    name: Test options
     steps:
       # To use this repository's private action,
       # you must check out the repository
@@ -32,23 +24,9 @@ jobs:
         with:
           github_token: ${{secrets.GITHUB_TOKEN }}
 
-      - name: upload report
-        uses: actions/upload-artifact@v2
-        with:
-          name: metrics-defaults-${{ matrix.os }}
-          path: ./metrics
-
   test_dirs:
-    name: Test options directories
-    runs-on: ${{ matrix.os }}
-    defaults:
-      run:
-        shell: bash
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-18.04, ubuntu-20.04]
-
+    runs-on: ubuntu-latest
+    name: Test options
     steps:
       # To use this repository's private action,
       # you must check out the repository
@@ -66,23 +44,9 @@ jobs:
             tests/java
             tests/cpp
 
-      - name: upload report
-        uses: actions/upload-artifact@v2
-        with:
-          name: metrics-dirs-${{ matrix.os }}
-          path: ./metrics
-
   test_exts:
-    name: Test options extensions
-    runs-on: ${{ matrix.os }}
-    defaults:
-      run:
-        shell: bash
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-18.04, ubuntu-20.04]
-
+    runs-on: ubuntu-latest
+    name: Test options
     steps:
       # To use this repository's private action,
       # you must check out the repository
@@ -107,5 +71,5 @@ jobs:
       - name: upload report
         uses: actions/upload-artifact@v2
         with:
-          name: metrics-exts-${{ matrix.os }}
+          name: metrics
           path: ./metrics
