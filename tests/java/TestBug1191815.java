@@ -126,4 +126,3 @@ public class TestBug1191815 extends TestBase {
         }
     }
 }
-
