@@ -4,13 +4,21 @@ on:
   workflow_dispatch:
   pull_request:
   push:
-    branches: [ master ]
+    branches: [ main ]
 
 
 jobs:
   test_defaults:
-    runs-on: ubuntu-latest
-    name: Test options
+    name: Test options defaults
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-18.04, ubuntu-20.04]
+
     steps:
       # To use this repository's private action,
       # you must check out the repository
@@ -24,9 +32,23 @@ jobs:
         with:
           github_token: ${{secrets.GITHUB_TOKEN }}
 
+      - name: upload report
+        uses: actions/upload-artifact@v2
+        with:
+          name: metrics-defaults-${{ matrix.os }}
+          path: ./metrics
+
   test_dirs:
-    runs-on: ubuntu-latest
-    name: Test options
+    name: Test options directories
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-18.04, ubuntu-20.04]
+
     steps:
       # To use this repository's private action,
       # you must check out the repository
@@ -44,9 +66,23 @@ jobs:
             tests/java
             tests/cpp
 
+      - name: upload report
+        uses: actions/upload-artifact@v2
+        with:
+          name: metrics-dirs-${{ matrix.os }}
+          path: ./metrics
+
   test_exts:
-    runs-on: ubuntu-latest
-    name: Test options
+    name: Test options extensions
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-18.04, ubuntu-20.04]
+
     steps:
       # To use this repository's private action,
       # you must check out the repository
@@ -71,5 +107,5 @@ jobs:
       - name: upload report
         uses: actions/upload-artifact@v2
         with:
-          name: metrics
+          name: metrics-exts-${{ matrix.os }}
           path: ./metrics
