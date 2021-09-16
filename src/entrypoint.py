@@ -64,28 +64,28 @@ def prepare_command():
     file_exts = FILE_EXTENSIONS
     src_files = []
 
-    print('Output directory: {}'.format(OUTPUT_DIR))
-    print('File extensions: {}'.format(file_exts))
-    print('Source directories: {}'.format(source_dirs))
-    print('Source language: {}'.format(LANGUAGE))
+    print(f'Output directory: {OUTPUT_DIR}')
+    print(f'File extensions: {file_exts}')
+    print(f'Source directories: {source_dirs}')
+    print(f'Source language: {LANGUAGE}')
 
     for srcdir in source_dirs:
         files = [f for ext in file_exts
-                 for f in Path(srcdir).glob('**/*{}'.format(ext))]
+                 for f in Path(srcdir).glob(f'**/*{ext}')]
         src_files += files
 
-    print('Source files: {}'.format(src_files))
+    print(f'Source files: {src_files}')
 
     file_arg = ""
     for fname in src_files:
         file_arg = file_arg + " " + str(fname)
 
     command = command + "{}".format(file_arg)
-    print('Full command line: {}'.format(command))
+    print(f'Full command line: {command}')
 
 
 def run_cccc():
-    sp.run(quote(command), shell=True, check=True)
+    sp.run(quote(command), shell=False, check=True)
 
 
 # def rm_unused_rpt():
@@ -103,8 +103,8 @@ def commit_changes():
     set_email = 'git config --local user.email "cccc-action@main"'
     set_user = 'git config --local user.name "cccc-action"'
 
-    sp.call(quote(set_email), shell=True)
-    sp.call(quote(set_user), shell=True)
+    sp.call(quote(set_email), check=True)
+    sp.call(quote(set_user), check=True)
 
     print('Target branch: {}'.format(TARGET_BRANCH))
     print('Target repository: {}'.format(TARGET_REPOSITORY))
@@ -116,9 +116,9 @@ def commit_changes():
         git_commit = 'git commit --dry-run -m "commit report, dry-run only"'
     print(f'Committing {OUTPUT_DIR}')
 
-    sp.call(git_checkout, shell=False)
-    sp.call(git_add, shell=False)
-    sp.call(quote(git_commit), shell=True)
+    sp.call(git_checkout, check=True)
+    sp.call(git_add, check=True)
+    sp.call(quote(git_commit), check=True)
 
 
 def push_changes():
@@ -126,13 +126,14 @@ def push_changes():
     """
     set_url = f'git remote set-url origin https://x-access-token:{GITHUB_TOKEN}@github.com/{TARGET_REPOSITORY}'
     git_push = f'git push origin {TARGET_BRANCH}'
-    sp.call(set_url, shell=False)
-    sp.call(git_push, shell=False)
+    sp.call(set_url, check=True)
+    sp.call(git_push, check=True)
 
 
 def main():
 
     if (GITHUB_EVENT_NAME == 'pull_request') and (GITHUB_ACTOR != GITHUB_REPOSITORY_OWNER):
+        print(f'Not enabled on {GITHUB_EVENT_NAME} in non-personal repository!')
         return
 
     prepare_command()
