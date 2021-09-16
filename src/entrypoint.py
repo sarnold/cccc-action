@@ -1,9 +1,10 @@
 import os
 import subprocess as sp
 
+from shlex import quote
 from pathlib import Path
 
-__version__ = '0.0.2'
+__version__ = '0.2'
 
 GITHUB_EVENT_NAME = os.environ['GITHUB_EVENT_NAME']
 
@@ -84,7 +85,7 @@ def prepare_command():
 
 
 def run_cccc():
-    sp.call(command, shell=True)
+    sp.run(quote(command), shell=True, check=True)
 
 
 # def rm_unused_rpt():
@@ -102,8 +103,8 @@ def commit_changes():
     set_email = 'git config --local user.email "cccc-action@main"'
     set_user = 'git config --local user.name "cccc-action"'
 
-    sp.call(set_email, shell=True)
-    sp.call(set_user, shell=True)
+    sp.call(quote(set_email), shell=True)
+    sp.call(quote(set_user), shell=True)
 
     print('Target branch: {}'.format(TARGET_BRANCH))
     print('Target repository: {}'.format(TARGET_REPOSITORY))
@@ -115,9 +116,9 @@ def commit_changes():
         git_commit = 'git commit --dry-run -m "commit report, dry-run only"'
     print(f'Committing {OUTPUT_DIR}')
 
-    sp.call(git_checkout, shell=True)
-    sp.call(git_add, shell=True)
-    sp.call(git_commit, shell=True)
+    sp.call(git_checkout, shell=False)
+    sp.call(git_add, shell=False)
+    sp.call(quote(git_commit), shell=True)
 
 
 def push_changes():
@@ -125,8 +126,8 @@ def push_changes():
     """
     set_url = f'git remote set-url origin https://x-access-token:{GITHUB_TOKEN}@github.com/{TARGET_REPOSITORY}'
     git_push = f'git push origin {TARGET_BRANCH}'
-    sp.call(set_url, shell=True)
-    sp.call(git_push, shell=True)
+    sp.call(set_url, shell=False)
+    sp.call(git_push, shell=False)
 
 
 def main():
