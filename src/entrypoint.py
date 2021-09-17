@@ -4,7 +4,7 @@ import subprocess as sp
 from shlex import split
 from pathlib import Path
 
-__version__ = '0.2'
+__version__ = '0.3'
 
 GITHUB_EVENT_NAME = os.environ['GITHUB_EVENT_NAME']
 

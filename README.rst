@@ -106,9 +106,9 @@ Input Options
   you don't need to set this up)
 :commit_report: Whether to commit the report files (default: false)
 :output_dir: Directory name for report (default: "metrics")
-:source_dirs: Directory names to search for source files (default is repository root)
+:source_dirs: Directory names to search for source files (default: repository root)
   Type is multiline string.
-:target_branch: Branch that the action will target (default is current branch)
+:target_branch: Branch that the action will target (default: None)
 :language: Set the target language if needed (one of 'c++', 'c', or 'java')
 :file_extensions: File extensions to search for (default uses built-in list).
   Type is multiline string.
@@ -117,8 +117,6 @@ Input Options
 Input Constraints
 -----------------
 
-* *be sure* to set one or more source directories if there are no sources
-  in the project root
 * **target_branch** will not create a new branch (you must create and
   push the branch *before* enabling this option)
 * **language** does not limit the search for source files (use this option
