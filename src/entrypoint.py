@@ -20,12 +20,12 @@ REPOSITORY = PULL_REQUEST_REPOSITORY if GITHUB_EVENT_NAME == 'pull_request' else
 GITHUB_REF = os.environ['GITHUB_REF']
 GITHUB_HEAD_REF = os.environ['GITHUB_HEAD_REF']
 GITHUB_BASE_REF = os.environ['GITHUB_BASE_REF']
-CURRENT_BRANCH = GITHUB_HEAD_REF or GITHUB_REF.rsplit('/', 1)[-1]
-TARGET_BRANCH = os.environ.get('INPUT_TARGET_BRANCH', )
+CURRENT_BRANCH = GITHUB_HEAD_REF if GITHUB_HEAD_REF != '' else GITHUB_REF.rsplit('/', 1)[-1]
+TARGET_BRANCH = os.environ.get('INPUT_TARGET_BRANCH', '')
 PULL_REQUEST_BRANCH = os.environ.get('INPUT_PULL_REQUEST_BRANCH', GITHUB_BASE_REF)
 BRANCH = PULL_REQUEST_BRANCH if GITHUB_EVENT_NAME == 'pull_request' else TARGET_BRANCH
 
-# Branch vars (eg, BRANCH, TARGET_BRANCH) are empty if no cfg branch
+# Branch vars (eg, BRANCH, TARGET_BRANCH) can be empty if no cfg branch
 CAN_COMMIT = True if TARGET_BRANCH != '' else False
 
 GITHUB_ACTOR = os.environ['GITHUB_ACTOR']
@@ -95,15 +95,6 @@ def run_cccc():
     sp.check_call(split(command))
 
 
-# def rm_unused_rpt():
-# """
-# We need to remove unused output format.
-# """
-# file_ext=".xml"
-# if REPORT_TYPE == "xml":
-    # file_ext = ".html"
-
-
 def commit_changes():
     """Commits changes.
     """
@@ -113,7 +104,8 @@ def commit_changes():
     sp.check_call(split(set_email))
     sp.check_call(split(set_user))
 
-    print(f'PR base branch: {BRANCH}')
+    print(f'Base ref var: {GITHUB_BASE_REF}')
+    print(f'PR branch var: {BRANCH}')
     print(f'Current branch: {CURRENT_BRANCH}')
     print(f'Target branch: {TARGET_BRANCH}')
     print(f'Target repository: {TARGET_REPOSITORY}')
@@ -140,10 +132,6 @@ def push_changes():
 
 
 def main():
-
-    # if (GITHUB_EVENT_NAME == 'pull_request') and (GITHUB_ACTOR != GITHUB_REPOSITORY_OWNER):
-    #     print(f'Disabled on {GITHUB_EVENT_NAME} in non-personal repository!')
-    #     return
 
     prepare_command()
     run_cccc()
