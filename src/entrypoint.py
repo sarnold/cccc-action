@@ -28,7 +28,6 @@ BRANCH = PULL_REQUEST_BRANCH if GITHUB_EVENT_NAME == 'pull_request' else TARGET_
 GITHUB_ACTOR = os.environ['GITHUB_ACTOR']
 GITHUB_REPOSITORY_OWNER = os.environ['GITHUB_REPOSITORY_OWNER']
 GITHUB_TOKEN = os.environ['INPUT_GITHUB_TOKEN']
-GITHUB_WORKSPACE = os.environ['GITHUB_WORKSPACE']
 
 # default values
 LC_EXTENSIONS = [
@@ -42,12 +41,15 @@ UC_EXTENSIONS = [ext.upper() for ext in LC_EXTENSIONS]
 # command related inputs
 DO_COMMIT = os.environ.get('INPUT_COMMIT_REPORT', False)
 FILE_EXTENSIONS = os.environ.get('INPUT_FILE_EXTENSIONS', "").split()
+SOURCE_DIRS = os.environ.get('INPUT_SOURCE_DIRS', "").split()
 
 if FILE_EXTENSIONS == []:
     FILE_EXTENSIONS = LC_EXTENSIONS + UC_EXTENSIONS
 
+if SOURCE_DIRS == []:
+    SOURCE_DIRS = ["."]
+
 LANGUAGE = os.environ.get('INPUT_LANGUAGE', "")
-SOURCE_DIRS = os.environ.get('INPUT_SOURCE_DIRS', GITHUB_WORKSPACE).split()
 OUTPUT_DIR = os.environ.get('INPUT_OUTPUT_DIR', 'metrics')
 REPORT_TYPE = os.environ.get('INPUT_REPORT_TYPE', 'html')
 
@@ -64,7 +66,6 @@ def prepare_command():
     file_exts = FILE_EXTENSIONS
     src_files = []
 
-    print(f'GitHub workspace: {GITHUB_WORKSPACE}')
     print(f'File extensions: {file_exts}')
     print(f'Source directories: {source_dirs}')
     print(f'Source language: {LANGUAGE}')
