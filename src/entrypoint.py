@@ -64,7 +64,7 @@ def prepare_command():
     file_exts = FILE_EXTENSIONS
     src_files = []
 
-    print(f'Output directory: {OUTPUT_DIR}')
+    print(f'GitHub workspace: {GITHUB_WORKSPACE}')
     print(f'File extensions: {file_exts}')
     print(f'Source directories: {source_dirs}')
     print(f'Source language: {LANGUAGE}')
@@ -75,6 +75,7 @@ def prepare_command():
         src_files += files
 
     print(f'Source files: {src_files}')
+    print(f'Output directory: {OUTPUT_DIR}')
 
     file_arg = ""
     for fname in src_files:
