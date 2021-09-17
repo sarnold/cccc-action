@@ -1,7 +1,7 @@
 import os
 import subprocess as sp
 
-from shlex import quote
+from shlex import split
 from pathlib import Path
 
 __version__ = '0.2'
@@ -85,7 +85,7 @@ def prepare_command():
 
 
 def run_cccc():
-    sp.run(quote(command), shell=False, check=True)
+    sp.call(split(command), check=True)
 
 
 # def rm_unused_rpt():
@@ -103,8 +103,8 @@ def commit_changes():
     set_email = 'git config --local user.email "cccc-action@main"'
     set_user = 'git config --local user.name "cccc-action"'
 
-    sp.call(quote(set_email), check=True)
-    sp.call(quote(set_user), check=True)
+    sp.call(split(set_email), check=True)
+    sp.call(split(set_user), check=True)
 
     print('Target branch: {}'.format(TARGET_BRANCH))
     print('Target repository: {}'.format(TARGET_REPOSITORY))
@@ -116,9 +116,9 @@ def commit_changes():
         git_commit = 'git commit --dry-run -m "commit report, dry-run only"'
     print(f'Committing {OUTPUT_DIR}')
 
-    sp.call(git_checkout, check=True)
-    sp.call(git_add, check=True)
-    sp.call(quote(git_commit), check=True)
+    sp.call(split(git_checkout), check=True)
+    sp.call(split(git_add), check=True)
+    sp.call(split(git_commit), check=True)
 
 
 def push_changes():
@@ -126,8 +126,8 @@ def push_changes():
     """
     set_url = f'git remote set-url origin https://x-access-token:{GITHUB_TOKEN}@github.com/{TARGET_REPOSITORY}'
     git_push = f'git push origin {TARGET_BRANCH}'
-    sp.call(set_url, check=True)
-    sp.call(git_push, check=True)
+    sp.call(split(set_url), check=True)
+    sp.call(split(git_push), check=True)
 
 
 def main():

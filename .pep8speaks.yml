@@ -4,8 +4,6 @@ scanner:
 no_blank_comment: False  # If True, no comment is made on PR without any errors.
 descending_issues_order: True  # If True, PEP 8 issues in message will be displayed in descending order of line numbers in the file
 
-max-line-length = 111
-
 [flake8]
 exclude =
     .git,
@@ -13,3 +11,5 @@ exclude =
     __pycache__,
     build,
     dist,
+
+max-line-length = 111  # match .flake8 cfg file
