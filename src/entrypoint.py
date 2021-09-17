@@ -109,8 +109,10 @@ def commit_changes():
     sp.check_call(split(set_email))
     sp.check_call(split(set_user))
 
-    print('Target branch: {}'.format(TARGET_BRANCH))
-    print('Target repository: {}'.format(TARGET_REPOSITORY))
+    print(f'PR base branch: {BRANCH}')
+    print(f'Current branch: {CURRENT_BRANCH}')
+    print(f'Target branch: {TARGET_BRANCH}')
+    print(f'Target repository: {TARGET_REPOSITORY}')
 
     git_checkout = f'git checkout {TARGET_BRANCH}'
     git_add = f'git add {OUTPUT_DIR}'
