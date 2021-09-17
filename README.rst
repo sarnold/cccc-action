@@ -1,21 +1,11 @@
 A Github Action for cccc
 ========================
 
-.. image:: https://socialify.git.ci/sarnold/cccc-action/image?description=1&font=Raleway&issues=1&language=1&owner=1&pulls=1&stargazers=1&theme=Light
-   :alt: cccc-action
+|ci|
 
-.. image:: https://github.com/sarnold/cccc-action/actions/workflows/main.yml/badge.svg
-    :target: https://github.com/sarnold/cccc-action/actions/workflows/main.yml
-    :alt: CI test status
+|sec| |pre|
 
-.. image:: https://img.shields.io/github/v/tag/sarnold/cccc-action?color=green&include_prereleases&label=latest%20release
-    :target: https://github.com/sarnold/cccc-action/releases
-    :alt: GitHub tag
-
-.. image:: https://img.shields.io/github/license/sarnold/cccc-action
-    :target: https://github.com/sarnold/cccc-action/blob/main/LICENSE
-    :alt: License
-
+|tag| |license|
 
 What is cccc?
 =============
@@ -90,7 +80,8 @@ Advanced configuration
           - name: cccc action step
             uses: sarnold/cccc-action@main
             with:
-              github_token: ${{ secrets.GITHUB_TOKEN}}
+              github_token: ${{ secrets.GITHUB_TOKEN }}
+              source_dir: 'cccc'  # source dir for main cccc sources
               commit_report: true
               target_branch: gh-pages
               source_dirs: |
@@ -105,7 +96,10 @@ Input Options
 
 .. note:: All input options are optional *except* ``github_token``. By
           default, the ``commit_report`` option uses ``--dry-run`` so
-          you can see what it *would* do before you actually enable it.
+          you can see what it *would* do before you actually enable it,
+          however, you need to set ``target_branch`` (without ``commit_report``)
+          to see the output from ``--dry-run``. Note you must also
+          **create the empty target branch** and push it to your repo first.
 
 
 :github_token: GITHUB_TOKEN secret (automatically provided by Github,
@@ -159,3 +153,25 @@ machine as needed.
 
 .. _Ubuntu: https://ubuntu.com/
 
+.. |social_blob| image:: https://socialify.git.ci/sarnold/cccc-action/image?description=1&font=Raleway&issues=1&language=1&owner=1&pulls=1&stargazers=1&theme=Light
+    :alt: cccc-action
+
+.. |ci| image:: https://github.com/sarnold/cccc-action/actions/workflows/main.yml/badge.svg
+    :target: https://github.com/sarnold/cccc-action/actions/workflows/main.yml
+    :alt: CI test status
+
+.. |pre| image:: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
+   :target: https://github.com/pre-commit/pre-commit
+   :alt: pre-commit
+
+.. |sec| image:: https://img.shields.io/badge/Security-Bandit-brightgreen?logo=pre-commit&logoColor=white
+    :target: https://github.com/PyCQA/bandit
+    :alt: Scanned by Bandit
+
+.. |tag| image:: https://img.shields.io/github/v/tag/sarnold/cccc-action?color=green&include_prereleases&label=latest%20release
+    :target: https://github.com/sarnold/cccc-action/releases
+    :alt: GitHub tag
+
+.. |license| image:: https://img.shields.io/github/license/sarnold/cccc-action
+    :target: https://github.com/sarnold/cccc-action/blob/main/LICENSE
+    :alt: License
