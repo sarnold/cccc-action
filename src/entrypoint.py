@@ -81,11 +81,12 @@ def prepare_command():
         file_arg = file_arg + " " + str(fname)
 
     command = command + "{}".format(file_arg)
-    print(f'Full command line: {command}')
+    print(f'Full command line string: {command}')
+    print(f'Full command line list: {split(command)}')
 
 
 def run_cccc():
-    sp.call(split(command), check=True)
+    sp.check_call(split(command))
 
 
 # def rm_unused_rpt():
@@ -103,8 +104,8 @@ def commit_changes():
     set_email = 'git config --local user.email "cccc-action@main"'
     set_user = 'git config --local user.name "cccc-action"'
 
-    sp.call(split(set_email), check=True)
-    sp.call(split(set_user), check=True)
+    sp.check_call(split(set_email))
+    sp.check_call(split(set_user))
 
     print('Target branch: {}'.format(TARGET_BRANCH))
     print('Target repository: {}'.format(TARGET_REPOSITORY))
@@ -116,9 +117,9 @@ def commit_changes():
         git_commit = 'git commit --dry-run -m "commit report, dry-run only"'
     print(f'Committing {OUTPUT_DIR}')
 
-    sp.call(split(git_checkout), check=True)
-    sp.call(split(git_add), check=True)
-    sp.call(split(git_commit), check=True)
+    sp.check_call(split(git_checkout))
+    sp.check_call(split(git_add))
+    sp.check_call(split(git_commit))
 
 
 def push_changes():
@@ -126,8 +127,8 @@ def push_changes():
     """
     set_url = f'git remote set-url origin https://x-access-token:{GITHUB_TOKEN}@github.com/{TARGET_REPOSITORY}'
     git_push = f'git push origin {TARGET_BRANCH}'
-    sp.call(split(set_url), check=True)
-    sp.call(split(git_push), check=True)
+    sp.check_call(split(set_url))
+    sp.check_call(split(git_push))
 
 
 def main():
