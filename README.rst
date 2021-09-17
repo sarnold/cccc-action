@@ -1,6 +1,8 @@
 A Github Action for cccc
 ========================
 
+|social_blob|
+
 |ci|
 
 |sec| |pre|
