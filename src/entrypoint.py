@@ -141,9 +141,9 @@ def push_changes():
 
 def main():
 
-    if (GITHUB_EVENT_NAME == 'pull_request') and (GITHUB_ACTOR != GITHUB_REPOSITORY_OWNER):
-        print(f'Disabled on {GITHUB_EVENT_NAME} in non-personal repository!')
-        return
+    # if (GITHUB_EVENT_NAME == 'pull_request') and (GITHUB_ACTOR != GITHUB_REPOSITORY_OWNER):
+    #     print(f'Disabled on {GITHUB_EVENT_NAME} in non-personal repository!')
+    #     return
 
     prepare_command()
     run_cccc()
