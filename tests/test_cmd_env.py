@@ -2,10 +2,10 @@ import os
 
 from pathlib import Path
 
-# test path
-CURDIR = os.environ['PWD']
-
 # default values
+CURRENT_BRANCH = 'phony'
+TARGET_BRANCH = os.environ.get('INPUT_TARGET_BRANCH', CURRENT_BRANCH)
+
 LC_EXTENSIONS = [
     ".c", ".c++", ".cc", ".cpp", ".cxx",
     ".h", ".h++", ".hh", ".hpp", ".hxx",
@@ -17,13 +17,15 @@ UC_EXTENSIONS = [ext.upper() for ext in LC_EXTENSIONS]
 # command related inputs
 DO_COMMIT = os.environ.get('INPUT_COMMIT_REPORT', False)
 FILE_EXTENSIONS = os.environ.get('INPUT_FILE_EXTENSIONS', "").split()
-GITHUB_WORKSPACE = os.environ.get('GITHUB_WORKSPACE', CURDIR)
+SOURCE_DIRS = os.environ.get('INPUT_SOURCE_DIRS', "").split()
 
 if FILE_EXTENSIONS == []:
     FILE_EXTENSIONS = LC_EXTENSIONS + UC_EXTENSIONS
 
+if SOURCE_DIRS == []:
+    SOURCE_DIRS = ["."]
+
 LANGUAGE = os.environ.get('INPUT_LANGUAGE', "")
-SOURCE_DIRS = os.environ.get('INPUT_SOURCE_DIRS', GITHUB_WORKSPACE).split()
 OUTPUT_DIR = os.environ.get('INPUT_OUTPUT_DIR', 'metrics')
 REPORT_TYPE = os.environ.get('INPUT_REPORT_TYPE', 'html')
 
@@ -58,6 +60,8 @@ def prepare_command():
 
     command = command + "{}".format(file_arg)
     print('Full command line: {}'.format(command))
+
+    print(f'Target branch: {TARGET_BRANCH}')
 
 
 if __name__ == '__main__':
