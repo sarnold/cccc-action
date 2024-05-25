@@ -98,11 +98,13 @@ def run_cccc():
 def commit_changes():
     """Commits changes.
     """
-    set_email = 'git config --local user.email "cccc-action@main"'
-    set_user = 'git config --local user.name "cccc-action"'
+    set_email = 'git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"'
+    set_user = 'git config --global user.name "cccc-action"'
+    set_safe = 'git config --global --add safe.directory /github/workspace'
 
     sp.check_call(split(set_email))
     sp.check_call(split(set_user))
+    sp.check_call(split(set_safe))
 
     print(f'Base ref var: {GITHUB_BASE_REF}')
     print(f'PR branch var: {BRANCH}')
