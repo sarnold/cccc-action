@@ -8,9 +8,9 @@ LABEL "maintainer"="Stephen Arnold <nerdboy@gentoo.org>" \
       "com.github.actions.icon"="check-circle" \
       "com.github.actions.color"="package"
 
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 # Set PYTHONUNBUFFERED so we don't get interleaved output
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONUNBUFFERED=1
 
 RUN apt-get update && \
     apt-get install --no-install-suggests --no-install-recommends -y git cccc && \
